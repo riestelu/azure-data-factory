@@ -1,0 +1,124 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory Name"
+		},
+		"AzureBlobStorage_importstorage": {
+			"type": "string"
+		},
+		"AzureDataLakeStorage_permanentstorage": {
+			"type": "string"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/DeltaCopy_Blob2DataLake_parking_data')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Copy raw parking data from blob to ADLS",
+				"activities": [
+					{
+						"name": "DeltaCopy_Blob2DataLake_parkingdata",
+						"type": "Copy",
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "parking-data/"
+							},
+							{
+								"name": "Destination",
+								"value": "datalake/LandingZone/Raw/parking-data/"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "BlobSource",
+								"recursive": true
+							},
+							"sink": {
+								"type": "AzureBlobFSSink",
+								"copyBehavior": "PreserveHierarchy"
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "Blob_mbdvobist_parkingdata",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Datalake_LandingZone_Raw_parkingdata",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"folder": {
+					"name": "Landing Zone Loads"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Blob_mbdvobist_parkingdata')]",
+				"[concat(variables('factoryId'), '/datasets/Datalake_LandingZone_Raw_parkingdata')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Blob_mbdvobist_parkingdata')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('AzureBlobStorage_importstorage')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Blobs"
+				},
+				"type": "AzureBlob",
+				"typeProperties": {
+					"fileName": "",
+					"folderPath": "parking-data"
+				}
+			}
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Datalake_LandingZone_Raw_parkingdata')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('AzureDataLakeStorage_permanentstorage')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DataLake"
+				},
+				"type": "AzureBlobFSFile",
+				"typeProperties": {
+					"compression": {
+						"type": "GZip",
+						"level": "Optimal"
+					},
+					"fileName": "",
+					"folderPath": "datalake/LandingZone/Raw/parking-data"
+				}
+			}
+		}
+	]
+}
