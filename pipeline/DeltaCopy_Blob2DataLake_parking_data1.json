@@ -36,7 +36,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "Blob_mbdvobist_parkingdata1",
+						"referenceName": "Blob_mbdvobist_parkingdata",
 						"type": "DatasetReference"
 					}
 				],

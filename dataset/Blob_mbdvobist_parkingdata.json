@@ -1,5 +1,5 @@
 {
-	"name": "Blob_mbdvobist_parkingdata1",
+	"name": "Blob_mbdvobist_parkingdata",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "BlobStorage_importstorage",
