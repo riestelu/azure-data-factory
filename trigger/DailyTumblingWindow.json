@@ -1,7 +1,7 @@
 {
 	"name": "DailyTumblingWindow",
 	"properties": {
-		"runtimeState": "Started",
+		"runtimeState": "Stopped",
 		"pipeline": {
 			"pipelineReference": {
 				"referenceName": "DeltaCopy_Blob2DataLake_parking_data1",
