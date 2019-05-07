@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "MbDvOBI-DF"
+		},
+		"AzureDataLakeStore_dgdvodltmads_accountKey": {
+			"value": ""
+		},
+		"BlobStorage_importstorage_connectionString": {
+			"value": ""
+		},
+		"linkedService1_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStore_dgdvodltmads_properties_typeProperties_url": {
+			"value": "https://dgdvodltmads.dfs.core.windows.net"
+		},
+		"Blob_mbdvobist_parkingdata_properties_typeProperties_fileName": {
+			"value": ""
+		},
+		"Blob_mbdvobist_parkingdata_properties_typeProperties_folderPath": {
+			"value": "parking-data"
+		},
+		"Datalake_LandingZone_Raw_parkingdata1_properties_typeProperties_fileName": {
+			"value": ""
+		},
+		"Datalake_LandingZone_Raw_parkingdata1_properties_typeProperties_folderPath": {
+			"value": "datalake/LandingZone/Raw/parking-data"
+		}
+	}
+}
