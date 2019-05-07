@@ -5,17 +5,26 @@
 		"factoryName": {
 			"value": "MbDvOBI-DF"
 		},
-		"AzureDataLakeStore_dgdvodltmads_accountKey": {
+		"AzureBlobStorage_importstorage_connectionString": {
 			"value": ""
 		},
-		"BlobStorage_importstorage_connectionString": {
+		"AzureDataLakeStorage_permanentstorage_accountKey": {
 			"value": ""
 		},
 		"linkedService1_connectionString": {
 			"value": ""
 		},
-		"AzureDataLakeStore_dgdvodltmads_properties_typeProperties_url": {
-			"value": "https://dgdvodltmads.dfs.core.windows.net"
+		"BlobStorage_importstorage_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStore_dgdvodltmads_accountKey": {
+			"value": ""
+		},
+		"Datalake_LandingZone_Raw_parkingdata_properties_typeProperties_fileName": {
+			"value": ""
+		},
+		"Datalake_LandingZone_Raw_parkingdata_properties_typeProperties_folderPath": {
+			"value": "datalake/LandingZone/Raw/parking-data"
 		},
 		"Blob_mbdvobist_parkingdata_properties_typeProperties_fileName": {
 			"value": ""
@@ -28,6 +37,12 @@
 		},
 		"Datalake_LandingZone_Raw_parkingdata1_properties_typeProperties_folderPath": {
 			"value": "datalake/LandingZone/Raw/parking-data"
+		},
+		"AzureDataLakeStorage_permanentstorage_properties_typeProperties_url": {
+			"value": "https://dgdvodltmads.dfs.core.windows.net"
+		},
+		"AzureDataLakeStore_dgdvodltmads_properties_typeProperties_url": {
+			"value": "https://dgdvodltmads.dfs.core.windows.net"
 		}
 	}
 }

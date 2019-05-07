@@ -7,21 +7,33 @@
 			"metadata": "Data Factory Name",
 			"defaultValue": "MbDvOBI-DF"
 		},
-		"AzureDataLakeStore_dgdvodltmads_accountKey": {
+		"AzureBlobStorage_importstorage_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStore_dgdvodltmads'"
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage_importstorage'"
 		},
-		"BlobStorage_importstorage_connectionString": {
+		"AzureDataLakeStorage_permanentstorage_accountKey": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'BlobStorage_importstorage'"
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage_permanentstorage'"
 		},
 		"linkedService1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'linkedService1'"
 		},
-		"AzureDataLakeStore_dgdvodltmads_properties_typeProperties_url": {
+		"BlobStorage_importstorage_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'BlobStorage_importstorage'"
+		},
+		"AzureDataLakeStore_dgdvodltmads_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStore_dgdvodltmads'"
+		},
+		"Datalake_LandingZone_Raw_parkingdata_properties_typeProperties_fileName": {
 			"type": "string",
-			"defaultValue": "https://dgdvodltmads.dfs.core.windows.net"
+			"defaultValue": ""
+		},
+		"Datalake_LandingZone_Raw_parkingdata_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "datalake/LandingZone/Raw/parking-data"
 		},
 		"Blob_mbdvobist_parkingdata_properties_typeProperties_fileName": {
 			"type": "string",
@@ -38,6 +50,14 @@
 		"Datalake_LandingZone_Raw_parkingdata1_properties_typeProperties_folderPath": {
 			"type": "string",
 			"defaultValue": "datalake/LandingZone/Raw/parking-data"
+		},
+		"AzureDataLakeStorage_permanentstorage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://dgdvodltmads.dfs.core.windows.net"
+		},
+		"AzureDataLakeStore_dgdvodltmads_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://dgdvodltmads.dfs.core.windows.net"
 		},
 		"containerUri": {
 			"type": "string",
@@ -66,17 +86,32 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"AzureDataLakeStore_dgdvodltmads_accountKey": {
-						"value": "[parameters('AzureDataLakeStore_dgdvodltmads_accountKey')]"
+					"AzureBlobStorage_importstorage_connectionString": {
+						"value": "[parameters('AzureBlobStorage_importstorage_connectionString')]"
 					},
-					"BlobStorage_importstorage_connectionString": {
-						"value": "[parameters('BlobStorage_importstorage_connectionString')]"
+					"AzureDataLakeStorage_permanentstorage_accountKey": {
+						"value": "[parameters('AzureDataLakeStorage_permanentstorage_accountKey')]"
 					},
 					"linkedService1_connectionString": {
 						"value": "[parameters('linkedService1_connectionString')]"
 					},
+					"BlobStorage_importstorage_connectionString": {
+						"value": "[parameters('BlobStorage_importstorage_connectionString')]"
+					},
+					"AzureDataLakeStore_dgdvodltmads_accountKey": {
+						"value": "[parameters('AzureDataLakeStore_dgdvodltmads_accountKey')]"
+					},
+					"AzureDataLakeStorage_permanentstorage_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorage_permanentstorage_properties_typeProperties_url')]"
+					},
 					"AzureDataLakeStore_dgdvodltmads_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStore_dgdvodltmads_properties_typeProperties_url')]"
+					},
+					"Datalake_LandingZone_Raw_parkingdata_properties_typeProperties_fileName": {
+						"value": "[parameters('Datalake_LandingZone_Raw_parkingdata_properties_typeProperties_fileName')]"
+					},
+					"Datalake_LandingZone_Raw_parkingdata_properties_typeProperties_folderPath": {
+						"value": "[parameters('Datalake_LandingZone_Raw_parkingdata_properties_typeProperties_folderPath')]"
 					},
 					"Blob_mbdvobist_parkingdata_properties_typeProperties_fileName": {
 						"value": "[parameters('Blob_mbdvobist_parkingdata_properties_typeProperties_fileName')]"

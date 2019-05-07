@@ -7,21 +7,41 @@
 			"metadata": "Data Factory Name",
 			"defaultValue": "MbDvOBI-DF"
 		},
-		"AzureDataLakeStore_dgdvodltmads_accountKey": {
+		"AzureBlobStorage_importstorage_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStore_dgdvodltmads'"
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage_importstorage'"
 		},
-		"BlobStorage_importstorage_connectionString": {
+		"AzureDataLakeStorage_permanentstorage_accountKey": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'BlobStorage_importstorage'"
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage_permanentstorage'"
 		},
 		"linkedService1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'linkedService1'"
 		},
+		"BlobStorage_importstorage_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'BlobStorage_importstorage'"
+		},
+		"AzureDataLakeStore_dgdvodltmads_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStore_dgdvodltmads'"
+		},
+		"AzureDataLakeStorage_permanentstorage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://dgdvodltmads.dfs.core.windows.net"
+		},
 		"AzureDataLakeStore_dgdvodltmads_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://dgdvodltmads.dfs.core.windows.net"
+		},
+		"Datalake_LandingZone_Raw_parkingdata_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": ""
+		},
+		"Datalake_LandingZone_Raw_parkingdata_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "datalake/LandingZone/Raw/parking-data"
 		},
 		"Blob_mbdvobist_parkingdata_properties_typeProperties_fileName": {
 			"type": "string",
@@ -45,18 +65,44 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStore_dgdvodltmads')]",
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage_importstorage')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage_importstorage_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage_permanentstorage')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
 				"type": "AzureBlobFS",
 				"typeProperties": {
-					"url": "[parameters('AzureDataLakeStore_dgdvodltmads_properties_typeProperties_url')]",
+					"url": "[parameters('AzureDataLakeStorage_permanentstorage_properties_typeProperties_url')]",
 					"accountKey": {
 						"type": "SecureString",
-						"value": "[parameters('AzureDataLakeStore_dgdvodltmads_accountKey')]"
+						"value": "[parameters('AzureDataLakeStorage_permanentstorage_accountKey')]"
 					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/linkedService1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('linkedService1_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -75,17 +121,48 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/linkedService1')]",
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStore_dgdvodltmads')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"type": "AzureBlobStorage",
+				"type": "AzureBlobFS",
 				"typeProperties": {
-					"connectionString": "[parameters('linkedService1_connectionString')]"
+					"url": "[parameters('AzureDataLakeStore_dgdvodltmads_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDataLakeStore_dgdvodltmads_accountKey')]"
+					}
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Datalake_LandingZone_Raw_parkingdata')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage_permanentstorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DataLake"
+				},
+				"annotations": [],
+				"type": "AzureBlobFSFile",
+				"typeProperties": {
+					"compression": {
+						"type": "GZip",
+						"level": "Optimal"
+					},
+					"fileName": "[parameters('Datalake_LandingZone_Raw_parkingdata_properties_typeProperties_fileName')]",
+					"folderPath": "[parameters('Datalake_LandingZone_Raw_parkingdata_properties_typeProperties_folderPath')]"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage_permanentstorage')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Blob_mbdvobist_parkingdata')]",
@@ -135,6 +212,71 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStore_dgdvodltmads')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DeltaCopy_Blob2DataLake_parking_data')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Copy raw parking data from blob to ADLS",
+				"activities": [
+					{
+						"name": "DeltaCopy_Blob2DataLake_parkingdata",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "parking-data/"
+							},
+							{
+								"name": "Destination",
+								"value": "datalake/LandingZone/Raw/parking-data/"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "BlobSource",
+								"recursive": true
+							},
+							"sink": {
+								"type": "AzureBlobFSSink",
+								"copyBehavior": "PreserveHierarchy"
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "Blob_mbdvobist_parkingdata",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Datalake_LandingZone_Raw_parkingdata",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"folder": {
+					"name": "Landing Zone Loads"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Blob_mbdvobist_parkingdata')]",
+				"[concat(variables('factoryId'), '/datasets/Datalake_LandingZone_Raw_parkingdata')]"
 			]
 		},
 		{
@@ -203,12 +345,42 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DailyTrigger_TumblingWindow')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipeline": {
+					"pipelineReference": {
+						"referenceName": "DeltaCopy_Blob2DataLake_parking_data",
+						"type": "PipelineReference"
+					},
+					"parameters": {}
+				},
+				"type": "TumblingWindowTrigger",
+				"typeProperties": {
+					"frequency": "Hour",
+					"interval": 1,
+					"startTime": "2019-04-15T14:44:00Z",
+					"delay": "00:00:00",
+					"maxConcurrency": 50,
+					"retryPolicy": {
+						"intervalInSeconds": 30
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/DeltaCopy_Blob2DataLake_parking_data')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DailyTumblingWindow')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"runtimeState": "Started",
+				"runtimeState": "Stopped",
 				"pipeline": {
 					"pipelineReference": {
 						"referenceName": "DeltaCopy_Blob2DataLake_parking_data1",
@@ -220,7 +392,7 @@
 				"typeProperties": {
 					"frequency": "Minute",
 					"interval": 15,
-					"startTime": "2019-04-14T20:40:00.000Z",
+					"startTime": "2019-04-14T20:40:00Z",
 					"delay": "00:00:00",
 					"maxConcurrency": 50,
 					"retryPolicy": {
