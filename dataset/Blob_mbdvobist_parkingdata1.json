@@ -1,0 +1,17 @@
+{
+	"name": "Blob_mbdvobist_parkingdata1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "BlobStorage_importstorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Blobs"
+		},
+		"type": "AzureBlob",
+		"typeProperties": {
+			"fileName": "",
+			"folderPath": "parking-data"
+		}
+	}
+}

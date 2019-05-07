@@ -1,0 +1,21 @@
+{
+	"name": "Datalake_LandingZone_Raw_parkingdata1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStore_dgdvodltmads",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DataLake"
+		},
+		"type": "AzureBlobFSFile",
+		"typeProperties": {
+			"compression": {
+				"type": "GZip",
+				"level": "Optimal"
+			},
+			"fileName": "",
+			"folderPath": "datalake/LandingZone/Raw/parking-data"
+		}
+	}
+}

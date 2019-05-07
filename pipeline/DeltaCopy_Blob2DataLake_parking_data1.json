@@ -1,0 +1,55 @@
+{
+	"name": "DeltaCopy_Blob2DataLake_parking_data1",
+	"properties": {
+		"description": "Copy raw parking data from blob to ADLS",
+		"activities": [
+			{
+				"name": "DeltaCopy_Blob2DataLake_parkingdata",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "parking-data/"
+					},
+					{
+						"name": "Destination",
+						"value": "datalake/LandingZone/Raw/parking-data/"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "BlobSource",
+						"recursive": true
+					},
+					"sink": {
+						"type": "AzureBlobFSSink",
+						"copyBehavior": "PreserveHierarchy"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "Blob_mbdvobist_parkingdata1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Datalake_LandingZone_Raw_parkingdata1",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "Landing Zone Loads"
+		}
+	}
+}
